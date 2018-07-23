@@ -1,0 +1,46 @@
+---
+title: 'Data Incubator Challenge'
+author: "Kailu Guan"
+date: "July/23/2018"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir="/Users/kailuguan/Desktop")
+
+library(readxl)
+library(car)
+library(ggplot2)
+library(visreg)
+```
+
+```{r}
+dat2=read_excel("data2.xlsx")
+table(dat2$prof)
+table(dat2$type)
+summary(dat2)
+
+```
+
+# Plot the response time with both proficiency and bilingual type represented. Plot the response time in two other separate graphs: one by profiency and working memory and one by bilingual type and working memory. Summary relationships in the data
+
+```{r}
+ggplot(data=dat2, aes(x=type, y=rt, color=factor(prof)))+geom_boxplot()+geom_jitter()+ggtitle("Response Time by Type with Proficiency") + xlab("Bilingual Type")+ylab("Response Time")
+
+ggplot(data=dat2, aes(x=score, y=rt, color=factor(prof)))+geom_point()+ggtitle("Response Time by Working Memory Score with Proficiency") + xlab("Working Memory Score")+ylab("Response Time")
+
+ggplot(data=dat2, aes(x=score, y=rt, color=factor(type)))+geom_point()+ggtitle("Response Time by Working Memory Score with Bilingual Type") + xlab("Working Memory Score")+ylab("Response Time") + stat_smooth(method="lm",se=FALSE)
+
+ggplot(data=dat2, aes(x=score, y=rt, color=factor(prof))) + geom_point() + facet_grid(~prof) + ggtitle("Response Time by Working Memory Score")+ ylab("Response Time")+xlab("Working Memory Score")
+
+#1. From the boxplot, we can see that, no matter what proficiency level they are in, those who are monolingual responded the fastest among the four bilingual types. 
+#2. For people with higher proficiency level, those who became bilingual sequentially responded the slowest among the four bilingual type. For people with lower proficiency level, both sequential and simultaneous bilinguals responded slower among the four types.
+#3. From the scatter plots we can see that there is a positive correlation between the participants' working memory score and their response time regardless of their proficiency and bilingual type.
+#4. From the scatter plots we can see that there is a difference between monolingual participants and sequential bilingual.    
+
+```
+
+
